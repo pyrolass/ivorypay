@@ -1,14 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { SignUpDto } from './dto/SignUpDto';
+import { SignUpRequestDto } from './dto/SignUpDto';
 import { MerchantService } from './merchant.service';
 
 @Controller('merchant')
 export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
   @Post('/sign_up')
-  handleSignUp(@Body() signUpDto: SignUpDto) {
+  handleSignUp(@Body() signUpRequestDto: SignUpRequestDto) {
     try {
-      return this.merchantService.signUp(signUpDto);
+      return this.merchantService.signUp(signUpRequestDto);
     } catch (e) {
       throw e;
     }
