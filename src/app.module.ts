@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { MerchantModule } from './merchant/merchant.module';
 import { StripeModule } from './stripe/stripe.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { StripeModule } from './stripe/stripe.module';
     AuthModule,
     MerchantModule,
     StripeModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],

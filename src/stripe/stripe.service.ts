@@ -3,20 +3,27 @@ import Stripe from 'stripe';
 import { StartPaymentDto } from './dto/StartPaymentDto';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { TransactionService } from 'src/transaction/transaction.service';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class StripeService {
   private stripe: Stripe;
 
-  constructor(private readonly httpService: HttpService) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly transactionService: TransactionService,
+  ) {
     this.stripe = new Stripe(process.env.STRIPE_KEY, {
       apiVersion: '2024-04-10',
     });
   }
 
-  async startPayment(startPaymentDto: StartPaymentDto) {
+  async startPayment(startPaymentDto: StartPaymentDto, user_id: string) {
     try {
       const amountInUSD = await this.getCryptoPrice(startPaymentDto.currency);
+
+      const amount = Math.round(amountInUSD * startPaymentDto.amount) * 100;
 
       const session = await this.stripe.checkout.sessions.create({
         mode: 'payment',
@@ -24,10 +31,9 @@ export class StripeService {
           {
             price_data: {
               currency: 'USD',
-              unit_amount:
-                Math.round(amountInUSD * startPaymentDto.amount) * 100,
+              unit_amount: amount,
               product_data: {
-                name: 'test product',
+                name: `${startPaymentDto.amount}X ${startPaymentDto.currency}`,
               },
             },
             quantity: 1,
@@ -37,7 +43,14 @@ export class StripeService {
         success_url: 'https://google.com',
         cancel_url: 'https://google.com',
       });
-      return session;
+
+      await this.transactionService.createTransaction({
+        stripe_id: session.id.toString(),
+        merchant_id: new Types.ObjectId(user_id),
+        amount: amount,
+        currency: startPaymentDto.currency,
+      });
+      return { url: session.url };
     } catch (e) {
       throw e;
     }

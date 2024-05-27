@@ -1,15 +1,25 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { StartPaymentDto } from './dto/StartPaymentDto';
+import { AuthGuard } from 'src/guard/auth.guard';
 
 @Controller('stripe')
 export class StripeController {
   constructor(private stripeService: StripeService) {}
 
   @Post('/start_payment')
-  async handleStartPayment(@Body() startPaymentDto: StartPaymentDto) {
+  @UseGuards(AuthGuard)
+  async handleStartPayment(
+    @Body() startPaymentDto: StartPaymentDto,
+    @Request() req,
+  ) {
     try {
-      const res = await this.stripeService.startPayment(startPaymentDto);
+      const { user_id } = req.user;
+
+      const res = await this.stripeService.startPayment(
+        startPaymentDto,
+        user_id,
+      );
 
       return res;
     } catch (e) {
