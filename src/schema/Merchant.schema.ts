@@ -10,6 +10,9 @@ export class Merchant {
 
   @Prop({ required: true })
   merchant_password: string;
+
+  @Prop({ default: 0 })
+  merchant_balance: number;
 }
 
 export const MerchantSchema = SchemaFactory.createForClass(Merchant);

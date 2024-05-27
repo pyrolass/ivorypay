@@ -7,6 +7,10 @@ export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
   @Post('/sign_up')
   handleSignUp(@Body() signUpDto: SignUpDto) {
-    return this.merchantService.signUp(signUpDto);
+    try {
+      return this.merchantService.signUp(signUpDto);
+    } catch (e) {
+      throw e;
+    }
   }
 }

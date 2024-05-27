@@ -7,11 +7,13 @@ import { Model } from 'mongoose';
 @Injectable()
 export class MerchantService {
   constructor(@InjectModel(Merchant.name) private userModel: Model<Merchant>) {}
-  signUp(signUpDto: SignUpDto) {
-    this.userModel.create({
+  async signUp(signUpDto: SignUpDto) {
+    await this.userModel.create({
       merchant_name: signUpDto.merchant_name,
       merchant_password: signUpDto.password,
       merchant_email: signUpDto.email,
     });
+
+    return 'user created';
   }
 }
