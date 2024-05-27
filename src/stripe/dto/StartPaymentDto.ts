@@ -5,6 +5,6 @@ export class StartPaymentDto {
   amount: number;
 
   @IsString()
-  @IsIn(['USD', 'EUR'])
+  @IsIn(['bitcoin', 'ethereum'])
   currency: string;
 }
