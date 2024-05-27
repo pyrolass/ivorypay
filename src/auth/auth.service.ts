@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Model } from 'mongoose';
+import { Merchant } from 'src/schema/Merchant.schema';
 import { SignUpRequestDto, SignUpResponseDto } from './dto/SignUpDto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Merchant } from 'src/schema/Merchant.schema';
-import { Model } from 'mongoose';
-import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { SignInRequestDto } from './dto/SignInDto';
 
 @Injectable()
-export class MerchantService {
+export class AuthService {
   constructor(
     @InjectModel(Merchant.name) private merchantModel: Model<Merchant>,
     private jwtService: JwtService,

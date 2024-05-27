@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MerchantController } from './merchant.controller';
-import { MerchantService } from './merchant.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Merchant, MerchantSchema } from 'src/schema/Merchant.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  controllers: [MerchantController],
-  providers: [MerchantService],
+  controllers: [AuthController],
+  providers: [AuthService],
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature([
@@ -20,4 +20,4 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
 })
-export class MerchantModule {}
+export class AuthModule {}
