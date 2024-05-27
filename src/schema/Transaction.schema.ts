@@ -14,7 +14,7 @@ export class Transaction {
 
   @Prop({
     required: true,
-    enum: ['pending', 'failed', 'completed'],
+    enum: ['pending', 'failed', 'completed', 'expired'],
     default: 'pending',
   })
   status: string;

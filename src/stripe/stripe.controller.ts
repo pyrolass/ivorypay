@@ -2,10 +2,14 @@ import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { StartPaymentDto } from './dto/StartPaymentDto';
 import { AuthGuard } from 'src/guard/auth.guard';
+import { TransactionService } from 'src/transaction/transaction.service';
 
 @Controller('stripe')
 export class StripeController {
-  constructor(private stripeService: StripeService) {}
+  constructor(
+    private stripeService: StripeService,
+    private readonly transactionService: TransactionService,
+  ) {}
 
   @Post('/start_payment')
   @UseGuards(AuthGuard)
@@ -29,14 +33,17 @@ export class StripeController {
 
   @Post('/payment_completed')
   async handlePaymentCompleted(@Body() body) {
-    console.log(body);
+    console.log(body.data.object.id);
+
+    await this.transactionService.completeTransaction(body.data.object.id);
+
     return {
       message: 'success',
     };
   }
   @Post('/payment_failed')
   async handlePaymentFailed(@Body() body) {
-    console.log(body);
+    await this.transactionService.failTransaction(body.data.object.id);
     return {
       message: 'success',
     };
@@ -44,7 +51,7 @@ export class StripeController {
 
   @Post('/payment_expired')
   async handlePaymentExpired(@Body() body) {
-    console.log(body);
+    await this.transactionService.expireTransaction(body.data.object.id);
     return {
       message: 'success',
     };

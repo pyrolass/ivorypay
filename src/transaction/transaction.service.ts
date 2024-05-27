@@ -17,4 +17,48 @@ export class TransactionService {
       throw e;
     }
   }
+
+  async completeTransaction(stripe_id: string) {
+    try {
+      await this.transactionModel.findOneAndUpdate(
+        {
+          stripe_id: stripe_id,
+        },
+        {
+          status: 'completed',
+        },
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+  async failTransaction(stripe_id: string) {
+    try {
+      await this.transactionModel.findOneAndUpdate(
+        {
+          stripe_id: stripe_id,
+        },
+        {
+          status: 'failed',
+        },
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async expireTransaction(stripe_id: string) {
+    try {
+      await this.transactionModel.findOneAndUpdate(
+        {
+          stripe_id: stripe_id,
+        },
+        {
+          status: 'expired',
+        },
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
 }
