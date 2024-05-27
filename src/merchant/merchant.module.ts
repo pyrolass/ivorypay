@@ -4,11 +4,13 @@ import { MerchantService } from './merchant.service';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Merchant, MerchantSchema } from 'src/schema/Merchant.schema';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   controllers: [MerchantController],
   providers: [MerchantService],
   imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([
       { name: Merchant.name, schema: MerchantSchema },
     ]),

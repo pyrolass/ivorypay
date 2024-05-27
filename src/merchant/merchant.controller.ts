@@ -8,10 +8,10 @@ export class MerchantController {
 
   @Get()
   @UseGuards(AuthGuard)
-  handleGetMerchantInfo(@Request() req) {
+  async handleGetMerchantInfo(@Request() req) {
     try {
       const { user_id } = req.user;
-      const merchant = this.merchantService.getMerchantInfo(user_id);
+      const merchant = await this.merchantService.getMerchantInfo(user_id);
 
       return merchant;
     } catch (e) {
