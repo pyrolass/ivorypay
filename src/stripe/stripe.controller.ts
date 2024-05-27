@@ -16,4 +16,27 @@ export class StripeController {
       throw e;
     }
   }
+
+  @Post('/payment_completed')
+  async handlePaymentCompleted(@Body() body) {
+    console.log(body);
+    return {
+      message: 'success',
+    };
+  }
+  @Post('/payment_failed')
+  async handlePaymentFailed(@Body() body) {
+    console.log(body);
+    return {
+      message: 'success',
+    };
+  }
+
+  @Post('/payment_expired')
+  async handlePaymentExpired(@Body() body) {
+    console.log(body);
+    return {
+      message: 'success',
+    };
+  }
 }
