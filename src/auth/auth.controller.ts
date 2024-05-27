@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpRequestDto } from './dto/SignUpDto';
 import { SignInRequestDto } from './dto/SignInDto';
@@ -21,10 +21,5 @@ export class AuthController {
     } catch (e) {
       throw e;
     }
-  }
-
-  @Get('/protected')
-  handleProtectedRoute() {
-    return 'test';
   }
 }
