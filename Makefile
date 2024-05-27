@@ -1,4 +1,4 @@
 .DEFAULT_GOAL := run
 
 run:
-	yarn run start
+	yarn run start:dev
