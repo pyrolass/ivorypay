@@ -19,5 +19,6 @@ import { ConfigModule } from '@nestjs/config';
       signOptions: { expiresIn: '30d' },
     }),
   ],
+  exports: [MerchantService],
 })
 export class MerchantModule {}

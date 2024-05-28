@@ -19,6 +19,9 @@ export class Transaction {
   })
   status: string;
 
+  @Prop({
+    required: true,
+  })
   merchant_id: Types.ObjectId;
 }
 

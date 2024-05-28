@@ -36,6 +36,7 @@ export class StripeService {
                 name: `${startPaymentDto.amount}X ${startPaymentDto.currency}`,
               },
             },
+
             quantity: 1,
           },
         ],

@@ -20,14 +20,17 @@ export class TransactionService {
 
   async completeTransaction(stripe_id: string) {
     try {
-      await this.transactionModel.findOneAndUpdate(
+      const transaction = await this.transactionModel.findOneAndUpdate(
         {
           stripe_id: stripe_id,
         },
         {
           status: 'completed',
         },
+        { new: true },
       );
+
+      return transaction.merchant_id;
     } catch (e) {
       throw e;
     }

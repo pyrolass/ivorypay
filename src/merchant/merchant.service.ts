@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Merchant } from 'src/schema/Merchant.schema';
 import { GetMerchantDto } from './dto/GetMerchantDto';
 
@@ -22,6 +22,16 @@ export class MerchantService {
         merchant_email: merchant.merchant_email,
         merchant_balance: merchant.merchant_balance,
       };
+    } catch (e) {
+      throw e;
+    }
+  }
+  async increaseMerchantBalance(merchant_id: Types.ObjectId, amount: number) {
+    try {
+      await this.merchantModel.findOneAndUpdate(
+        { _id: merchant_id },
+        { $inc: { merchant_balance: amount } },
+      );
     } catch (e) {
       throw e;
     }

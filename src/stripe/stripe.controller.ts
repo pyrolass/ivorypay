@@ -3,12 +3,14 @@ import { StripeService } from './stripe.service';
 import { StartPaymentDto } from './dto/StartPaymentDto';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { TransactionService } from 'src/transaction/transaction.service';
+import { MerchantService } from 'src/merchant/merchant.service';
 
 @Controller('stripe')
 export class StripeController {
   constructor(
     private stripeService: StripeService,
     private readonly transactionService: TransactionService,
+    private readonly merchantService: MerchantService,
   ) {}
 
   @Post('/start_payment')
@@ -33,14 +35,19 @@ export class StripeController {
 
   @Post('/payment_completed')
   async handlePaymentCompleted(@Body() body) {
-    console.log(body.data.object.id);
+    const merchant_id = await this.transactionService.completeTransaction(
+      body.data.object.id,
+    );
 
-    await this.transactionService.completeTransaction(body.data.object.id);
+    const amountPaid = body.data.object.amount_subtotal / 100;
+
+    await this.merchantService.increaseMerchantBalance(merchant_id, amountPaid);
 
     return {
       message: 'success',
     };
   }
+
   @Post('/payment_failed')
   async handlePaymentFailed(@Body() body) {
     await this.transactionService.failTransaction(body.data.object.id);
