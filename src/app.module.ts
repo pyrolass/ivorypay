@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { MerchantModule } from './merchant/merchant.module';
 import { StripeModule } from './stripe/stripe.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TransactionModule } from './transaction/transaction.module';
     MerchantModule,
     StripeModule,
     TransactionModule,
+    CurrencyModule,
   ],
   controllers: [],
   providers: [],

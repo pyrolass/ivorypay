@@ -57,7 +57,7 @@ export class StripeService {
     }
   }
 
-  private async getCryptoPrice(cryptoType: string) {
+  async getCryptoPrice(cryptoType: string) {
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoType}&vs_currencies=USD`;
     try {
       const response = this.httpService.get(url);

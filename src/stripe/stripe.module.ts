@@ -20,5 +20,6 @@ import { MerchantModule } from 'src/merchant/merchant.module';
       signOptions: { expiresIn: '30d' },
     }),
   ],
+  exports: [StripeService],
 })
 export class StripeModule {}
